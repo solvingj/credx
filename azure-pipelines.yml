@@ -1,0 +1,58 @@
+variables:
+  GOPATH: "$(system.defaultWorkingDirectory)/gopath"
+  GO111MODULE: "on"
+  MODULEPATH: "$(GOPATH)/src/github.com/$(build.repository.name)"
+  PKG: $(Build.DefinitionName)
+  VER: $(Build.SourceBranchName)
+  PLAT: $(System.Phasename)
+  BT_API: https://api.bintray.com/content
+  BT_REPO: public-bin
+  BT_OPTS: publish=1&override=1
+  BT_URL: $(BT_API)/$(BT_USER)/$(BT_REPO)/$(PKG)/$(VER)/$(PLAT)/$(FILE)?$(BT_OPTS)
+  
+trigger:
+  branches:
+    include: ['*']
+  tags:
+    include: ['*']
+    
+jobs:
+  - job: windows_x64
+    variables: 
+      FILE: $(PKG).exe
+    pool:
+      vmImage: "vs2017-win2016"
+    steps:
+      - script: go test ./...
+        displayName: go_test
+      - script: go build -o $(FILE)
+        displayName: go_build
+      - script: curl -T $(FILE) -u$(BT_USER):$(BT_KEY) "$(BT_URL)"
+        displayName: bintray_publish
+        condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+  - job: macos_x64
+    variables: 
+      FILE: $(PKG)
+    pool:
+      vmImage: "macOS-10.13"
+    steps:
+      - script: go test ./...
+        displayName: go_test
+      - script: go build -o $(FILE)
+        displayName: go_build
+      - script: curl -T $(FILE) -u$(BT_USER):$(BT_KEY) "$(BT_URL)"
+        displayName: bintray_publish
+        condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+  - job: linux_x64
+    variables: 
+      FILE: $(PKG)
+    pool:
+      vmImage: "ubuntu-16.04"
+    steps:
+      - script: go test ./...
+        displayName: go_test
+      - script: go build -o $(FILE)
+        displayName: go_build
+      - script: curl -T $(FILE) -u$(BT_USER):$(BT_KEY) "$(BT_URL)"
+        displayName: bintray_publish
+        condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
