@@ -10,7 +10,7 @@
 Pre-pre-alpha: Several core functions not yet implemented
 
 # credx  
-`credx` aims to provide a native, cross-platform, cross-language command-line utility for managing credentials which are used during development workflows.  It intends to provide a more secure solution to storing, retrieval, and sharing of credentials on developers' local machines.  `credx` was partially inspired by `pass` (passwordstore.org), but makes the fundamental addition of leveraging the operating system keychain as the core credential store. Also, it does supports `pass` as a storage backend, and adds some conviences to using it. 
+`credx` aims to provide a native, cross-platform, cross-language command-line utility for managing credentials which are used during development workflows.  It intends to provide a more secure solution to storing, retrieval, and sharing of credentials on developers' local machines.  `credx` was partially inspired by `pass` (passwordstore.org), but makes the fundamental addition of leveraging the operating system keychain as the core credential store. Also, it does supports `pass` as a storage backend, and adds some conviences to using it. `credx` also aims to be part of a larger toolset and devops tool strategy. 
 
 ## How to Use  
 The core `credx` api is very simple:
