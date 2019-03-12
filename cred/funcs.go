@@ -117,7 +117,7 @@ func PassKeyringConfig(passDir string, passCmd string, passPrefix string) keyrin
 func DefaultBackend() string {
 	switch osys := runtime.GOOS; osys {
 	case "darwin":
-		return "keyring"
+		return "keychain"
 	case "linux":
 		return "secret-service"
 	case "windows":
